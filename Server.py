@@ -70,16 +70,17 @@ def getAvail():
 def update():
     sql_cmd = "SELECT status FROM timeslots WHERE `date` ='"+request.form['date']+"' AND slots ='"+request.form['time']+"'";
     res = db.engine.execute(sql_cmd).fetchone();
+    print(res[0], file=sys.stderr);
     if res[0] == 1:
         return "Oops someone has already maken the appointment!"
     sql_cmd = "UPDATE timeslots SET status = 2, timeout = DATE_ADD(NOW(), INTERVAL 15 MINUTE) WHERE `date` ='"+request.form['date']+"' AND slots ='"+request.form['time']+"'";
-    print(sql_cmd, file=sys.stderr);
+    #print(sql_cmd, file=sys.stderr);
     db.engine.execute(sql_cmd);
    
-    if request.form['pre'] != -1:
+    if (request.form['pre'] != -1) and (request.form['pre'] != request.form['time']):
         sql_cmd = "UPDATE timeslots SET status = 0 WHERE `date` ='"+request.form['date']+"' AND slots ='"+request.form['pre']+"'";
         db.engine.execute(sql_cmd);
-        print(sql_cmd, file=sys.stderr);
+        #print(sql_cmd, file=sys.stderr);
         
     return "success"
 
