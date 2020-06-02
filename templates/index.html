@@ -1,0 +1,264 @@
+<!-- begin snippet: js hide: false console: true babel: false -->
+<!-- language: lang-html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<title>Kendo UI Example for WCG</title>
+<link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.common-material.min.css" />
+<link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.material.min.css" />
+<link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.dataviz.min.css" />
+<link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.dataviz.material.min.css" />
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="http://cdn.kendostatic.com/2015.1.429/js/jquery.min.js"></script>
+<script src="http://cdn.kendostatic.com/2015.1.429/js/kendo.all.min.js"></script>
+<link type="text/css" media="print" rel="stylesheet" href="https://cdn.jotfor.ms/css/printForm.css?3.3.17931" />
+<link type="text/css" rel="stylesheet" href="https://cdn.jotfor.ms/themes/CSS/5e6b428acc8c4e222d1beb91.css?themeRevisionID=5eb3b4ae85bd2e1e2966db96"/>
+<link type="text/css" rel="stylesheet" href="https://cdn.jotfor.ms/css/styles/payment/styles.css?3.3.17931" />
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
+<style>
+.popover {
+    left: 40% !important;
+}
+.btn {
+    margin: 1%;
+}
+.myButton {
+	box-shadow: 0px 1px 0px 0px #9fb4f2;
+	background-color:#7892c2;
+	border-radius:6px;
+	border:1px solid #4e6096;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+}
+.myButton:hover {
+	background-color:#476e9e;
+}
+.myButton:disabled {
+	background-color:#c5d1de;
+}
+
+
+</style>
+</head>
+<body>
+	<div role="main" class="form-all">
+    <ul class="form-section page-section">
+    <li class="form-line" data-type="control_fullname" id="id_6">
+        <label class="form-label form-label-top form-label-auto" id="label_6" for="first_6"> Name </label>
+        <div id="cid_6" class="form-input-wide" data-layout="full">
+          <div data-wrapper-react="true">
+            <span class="form-sub-label-container " style="vertical-align:top" data-input-type="first">
+              <input type="text" id="firstName" name="firstName" class="form-textbox" size="10" value="" data-component="first" aria-labelledby="label_6 sublabel_6_first" />
+              <label class="form-sub-label" for="first_6" id="sublabel_6_first" style="min-height:13px" aria-hidden="false"> *First Name </label>
+            </span>
+            <span class="form-sub-label-container " style="vertical-align:top" data-input-type="last">
+              <input type="text" id="lastName" name="lastName" class="form-textbox" size="15" value="" data-component="last" aria-labelledby="label_6 sublabel_6_last" />
+              <label class="form-sub-label" for="last_6" id="sublabel_6_last" style="min-height:13px" aria-hidden="false"> Last Name </label>
+            </span>
+          </div>
+        </div>
+      </li>
+      <li class="form-line" data-type="control_email" id="id_4">
+        <label class="form-label form-label-top form-label-auto" id="label_4" for="input_4"> Email </label>
+        <div id="cid_4" class="form-input-wide" data-layout="half">
+          <span class="form-sub-label-container " style="vertical-align:top">
+            <input type="email" id="input_4" name="q4_email" class="form-textbox validate[Email]" style="width:30px" size="30" value="" data-component="email" aria-labelledby="label_4 sublabel_input_4" />
+            <label class="form-sub-label" for="input_4" id="sublabel_input_4" style="min-height:13px" aria-hidden="false"> example@example.com </label>
+          </span>
+        </div>
+      </li>
+      <li class="form-line" data-type="control_phone" id="id_5">
+        <label class="form-label form-label-top form-label-auto" id="phone_text" for="input_5_area"> Phone Number </label>
+        <div id="cid_5" class="form-input-wide" data-layout="half">
+          <div data-wrapper-react="true">
+            <span class="form-sub-label-container " style="vertical-align:top" data-input-type="areaCode">
+              <input type="tel" id="code" name="code" class="form-textbox" size="6" value="" data-component="areaCode" aria-labelledby="label_5 sublabel_5_area" />
+              <span class="phone-separate" aria-hidden="true">
+                 -
+              </span>
+              <label class="form-sub-label" for="input_5_area" id="sublabel_5_area" style="min-height:13px" aria-hidden="false"> *Area Code </label>
+            </span>
+            <span class="form-sub-label-container " style="vertical-align:top" data-input-type="phone">
+              <input type="tel" id="phone" name="phone" class="form-textbox" size="12" value="" data-component="phone" aria-labelledby="label_5 sublabel_5_phone" />
+              <label class="form-sub-label" for="input_5_phone" id="sublabel_5_phone" style="min-height:13px" aria-hidden="false"> *Phone Number </label>
+            </span>
+          </div>
+        </div>
+      </li>
+	  <p>*blank must be filled</p>
+	  <li class="form-line" data-type="control_appointment" id="id_7">
+        <label class="form-label form-label-top" id="label_7" for="input_7"> Appointment </label>
+        <div id="cid_7" class="form-input-wide" data-layout="full">
+			<div id="input_7" class="appointmentFieldWrapper jfQuestion-fields" data-breakpoint="isNormal" data-breakpoint-offset="328">
+			  <div class="calendar appointmentCalendar">
+				<div class="appointmentFieldRow forCalendar">
+				<div class="appointmentCalendarContainer">
+					<div class="demo-section k-header" style="width: 300px; text-align: center;">
+						<div id="calendar"></div>
+						<input id="date" value="1"  type="hidden"></input>
+					</div>
+				</div>
+				<div class="appointmentDates">
+					<div class="appointmentSlots slots ">
+				  <div id ="ajaxTime" class="appointmentSlotsContainer">
+				
+				  </div>
+				  <input id="time" value="-1"  type="hidden"></input>
+				</div>
+				</div>
+				</div>
+			  </div>
+			  <div class="appointmentField">
+				</div>
+			</div>
+        </div>
+      </li>
+	  
+	  
+	  
+	   
+	 
+	  
+	  <li class="form-line" data-type="control_button" id="id_2">
+        <div id="cid_2" class="form-input-wide" data-layout="full">
+          <div data-align="auto" class="form-buttons-wrapper form-buttons-auto   jsTest-button-wrapperField">
+            <button id="submit"  class="k-button" >
+              Submit
+            </button>
+          </div>
+        </div>
+      </li>
+	  </ul>
+	  </div>
+<script>
+ $(document).ready(function() {
+	// create Calendar from div HTML element
+	$("#calendar").kendoCalendar({ 
+		change: function() {
+			var value = this.value();
+			document.getElementById('date').value = kendo.toString(value, "yyyy-MM-dd");
+			var date = document.getElementById('date').value;
+			$.ajax({
+				type: 'POST',
+				url: "/getAvail",
+				data: {
+					date: date
+				},
+				dataType:"json",
+				success: function(response) {
+					//console.info("msg:"+ response.slots);
+					$("#ajaxTime").empty();
+					var item=response.res;
+					for(var i=0;i<item.length;i++){
+						
+						if (item[i].status == 0){
+							$("#ajaxTime").append('<input class="myButton" value="'+item[i].slots+'" onclick="dj(this);" />');
+						} else {
+							$("#ajaxTime").append('<input class="myButton" value="'+item[i].slots+'" onclick="dj(this);" disabled />');
+						}
+						
+					}
+			
+				},
+				error: function(error) {
+					console.info("error:"+ error);
+				}
+			});
+		}
+	});
+	 var datepicker = $("#calendar").data("kendoDatePicker");
+/**
+	$("#submit").click(function() {
+		var date = document.getElementById('date').value;
+		if (date == 1){
+			alert("please select the time you want to resever");
+		}else {
+			alert(document.getElementById('date').value);
+		}
+		
+	});
+*/
+	$('button').click(function() {
+	var date = document.getElementById('date').value;
+	var time = document.getElementById('time').value;
+	var firstName = document.getElementById('firstName').value;
+	var code = document.getElementById('code').value;
+	var phone = document.getElementById('phone').value;
+		if (date == 1 || time == -1){
+			alert("please select the time you want to resever");
+		} else if (firstName.length <= 0){
+			alert("Please enter your Name");
+		} else if (code.length <= 0 || phone.length <= 0){
+			alert("Please enter your phone number");
+		} else if ( phone.length != 10){
+			alert("Please enter valid phone number");
+		} else {
+			$.ajax({
+				type: 'POST',
+				url: "/submit",
+				data: {
+					date: date,
+					time: time,
+					firstName: firstName,
+					code: code,
+					phone: phone
+				},
+				success: function(response) {
+					alert(response,'',function(){
+						window.location.reload(); 
+					});
+				},
+				error: function(error) {
+					console.info("error:"+ error);
+				}
+			});
+
+		}
+        
+    });
+
+					
+});
+				
+function dj(dom) {
+	elements = document.getElementsByClassName(dom.className);
+	
+	for (var i = 0; i < elements.length; i++) {
+		if($(elements[i]).prop("disabled")==false){
+			$(elements[i]).css("background","#7892c2");
+		}	
+	}
+	$(dom).css("background","#324357");
+	var pre = document.getElementById('time').value;
+	document.getElementById('time').value = dom.value;
+	var time = document.getElementById('time').value;
+	var date = document.getElementById('date').value;
+	$.ajax({
+			type: 'POST',
+			url: "/update",
+			data: {
+				pre: pre,
+				date: date,
+				time: time
+			},
+			success: function(response) {
+				console.info("msg:"+ response);
+			},
+			error: function(error) {
+				console.info("error:"+ error);
+			}
+		});
+}
+
+
+</script> 
+</body>
+</html>
