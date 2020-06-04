@@ -13,4 +13,7 @@
 		password:(your db password)</br>
 		ip:127.0.0.1</br>
 		port:(db port usually 3306)</br>
-		db:(your databse name)
+		db:(your databse name)<br>
+4.Run Server.py Server2.py Server3.py<br>
+5./index appointment system page<br>
+/history  can use phone to search and cancel the appointment

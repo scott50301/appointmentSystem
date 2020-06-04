@@ -42,6 +42,12 @@ def index():
     #return 'ok'
     return render_template('index.html');
 
+@app.route('/history')
+def historyPage():
+  
+    #return 'ok'
+    return render_template('history.html');
+
 @app.route('/getAvail', methods= ["POST"])
 def getAvail():
 
@@ -70,7 +76,7 @@ def getAvail():
 def update():
     sql_cmd = "SELECT status FROM timeslots WHERE `date` ='"+request.form['date']+"' AND slots ='"+request.form['time']+"'";
     res = db.engine.execute(sql_cmd).fetchone();
-    print(res[0], file=sys.stderr);
+    #print(res[0], file=sys.stderr);
     if res[0] == 1:
         return "Oops someone has already maken the appointment!"
     sql_cmd = "UPDATE timeslots SET status = 2, timeout = DATE_ADD(NOW(), INTERVAL 15 MINUTE) WHERE `date` ='"+request.form['date']+"' AND slots ='"+request.form['time']+"'";
@@ -87,16 +93,53 @@ def update():
 @app.route('/submit', methods= ["POST"])
 def submit():
     sql_cmd = "SELECT status FROM timeslots WHERE `date` ='"+request.form['date']+"' AND slots ='"+request.form['time']+"'";
-    print(sql_cmd, file=sys.stderr);
+    #print(sql_cmd, file=sys.stderr);
     res = db.engine.execute(sql_cmd).fetchone();
     if res[0] == 1:
         return "Oops someone has already maken the appointment!"
 
-    sql_cmd = "UPDATE timeslots SET status = 1 WHERE `date` ='"+request.form['date']+"' AND slots ='"+request.form['time']+"'";
+    sql_cmd = "SELECT id FROM users WHERE phone = " + request.form['phone'];
+    res = db.engine.execute(sql_cmd).fetchone();
+    id =""
+    if res is None:
+        sql_cmd = "INSERT INTO users (phone) VALUES ("+ request.form['phone']+")";
+        db.engine.execute(sql_cmd);
+        
+        sql_cmd = "SELECT id FROM users WHERE phone = " + request.form['phone'];
+        res = db.engine.execute(sql_cmd).fetchone();
+        
+        
+    print(res[0], file=sys.stderr);
     
+    sql_cmd = "UPDATE timeslots SET status = 1, userId = "+str(res[0])+" WHERE `date` ='"+request.form['date']+"' AND slots ='"+request.form['time']+"'";
     db.engine.execute(sql_cmd);
         
     return "success"
 
+@app.route('/search', methods= ["POST"])
+def search():
+    sql_cmd = "SELECT `date`,slots FROM timeslots AS ts INNER JOIN users AS u ON u.ID = ts.userId WHERE u.phone = "+request.form['phone'];
+    print(sql_cmd, file=sys.stderr);
+    query_data = db.engine.execute(sql_cmd);
+    result = query_data.fetchall()
+
+    d, a = {}, []
+    for rowproxy in result:
+        for column, value in rowproxy.items():
+            # build up the dictionary
+            value = str(value);
+            d = {**d, **{column: value}}
+        a.append(d)
+    print(a, file=sys.stderr);
+    
+    return jsonify(res = a)
+
+@app.route('/cancel', methods= ["POST"])
+def cancel():
+    sql_cmd = "UPDATE timeslots SET `status` = 0, userId = NULL WHERE `date` = '"+request.form['date']+"' AND slots = '"+request.form['time']+"';"
+    db.engine.execute(sql_cmd);
+    return "success"
+    
+    
 if __name__ == '__main__':
     app.run(port=5000, debug=True, host='0.0.0.0');

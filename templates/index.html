@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<title>Kendo UI Example for WCG</title>
+<title>Appointment System</title>
 <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.common-material.min.css" />
 <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.material.min.css" />
 <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.dataviz.min.css" />
@@ -79,13 +79,6 @@
         <label class="form-label form-label-top form-label-auto" id="phone_text" for="input_5_area"> Phone Number </label>
         <div id="cid_5" class="form-input-wide" data-layout="half">
           <div data-wrapper-react="true">
-            <span class="form-sub-label-container " style="vertical-align:top" data-input-type="areaCode">
-              <input type="tel" id="code" name="code" class="form-textbox" size="6" value="" data-component="areaCode" aria-labelledby="label_5 sublabel_5_area" />
-              <span class="phone-separate" aria-hidden="true">
-                 -
-              </span>
-              <label class="form-sub-label" for="input_5_area" id="sublabel_5_area" style="min-height:13px" aria-hidden="false"> *Area Code </label>
-            </span>
             <span class="form-sub-label-container " style="vertical-align:top" data-input-type="phone">
               <input type="tel" id="phone" name="phone" class="form-textbox" size="12" value="" data-component="phone" aria-labelledby="label_5 sublabel_5_phone" />
               <label class="form-sub-label" for="input_5_phone" id="sublabel_5_phone" style="min-height:13px" aria-hidden="false"> *Phone Number </label>
@@ -190,14 +183,11 @@
 	var date = document.getElementById('date').value;
 	var time = document.getElementById('time').value;
 	var firstName = document.getElementById('firstName').value;
-	var code = document.getElementById('code').value;
 	var phone = document.getElementById('phone').value;
 		if (date == 1 || time == -1){
 			alert("please select the time you want to resever");
 		} else if (firstName.length <= 0){
 			alert("Please enter your Name");
-		} else if (code.length <= 0 || phone.length <= 0){
-			alert("Please enter your phone number");
 		} else if ( phone.length != 10){
 			alert("Please enter valid phone number");
 		} else {
@@ -208,7 +198,6 @@
 					date: date,
 					time: time,
 					firstName: firstName,
-					code: code,
 					phone: phone
 				},
 				success: function(response) {

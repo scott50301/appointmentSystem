@@ -1,0 +1,167 @@
+<!-- begin snippet: js hide: false console: true babel: false -->
+<!-- language: lang-html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<title>History</title>
+<link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.common-material.min.css" />
+<link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.material.min.css" />
+<link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.dataviz.min.css" />
+<link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.dataviz.material.min.css" />
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="http://cdn.kendostatic.com/2015.1.429/js/jquery.min.js"></script>
+<script src="http://cdn.kendostatic.com/2015.1.429/js/kendo.all.min.js"></script>
+<link type="text/css" media="print" rel="stylesheet" href="https://cdn.jotfor.ms/css/printForm.css?3.3.17931" />
+<link type="text/css" rel="stylesheet" href="https://cdn.jotfor.ms/themes/CSS/5e6b428acc8c4e222d1beb91.css?themeRevisionID=5eb3b4ae85bd2e1e2966db96"/>
+<link type="text/css" rel="stylesheet" href="https://cdn.jotfor.ms/css/styles/payment/styles.css?3.3.17931" />
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
+<style>
+
+.myButton {
+	box-shadow: 0px 1px 0px 0px #9fb4f2;
+	background-color:#7892c2;
+	border-radius:6px;
+	border:1px solid #4e6096;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+}
+.myButton:hover {
+	background-color:#476e9e;
+}
+.myButton:disabled {
+	background-color:#c5d1de;
+}
+
+.cancelButton {
+	box-shadow:inset 0px 1px 0px 0px #f5978e;
+	background:linear-gradient(to bottom, #f24537 5%, #c62d1f 100%);
+	background-color:#f24537;
+	border-radius:0px;
+	border:0px solid #d02718;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:8px;
+	font-weight:bold;
+	padding:6px 6px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #810e05;
+}
+.cancelButton:hover {
+	background:linear-gradient(to bottom, #c62d1f 5%, #f24537 100%);
+	background-color:#c62d1f;
+}
+.cancelButton:disabled {
+	background-color:#f0c6c2;
+}
+
+.tftable {font-size:12px;color:#333333;width:100%;border-width: 1px;border-color: #729ea5;border-collapse: collapse;}
+.tftable th {font-size:12px;background-color:#acc8cc;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;text-align:left;}
+.tftable tr {background-color:#d4e3e5;}
+.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;}
+.tftable tr:hover {background-color:#ffffff;}
+</style>
+
+</head>
+<body>
+	<div role="main" class="form-all">
+    <ul class="form-section page-section">
+		<li class="form-line" data-type="control_phone" id="id_5">
+        <label class="form-label form-label-top form-label-auto" id="phone_text" for="input_5_area"> Phone Number </label>
+        <div id="cid_5" class="form-input-wide" data-layout="half">
+          <div data-wrapper-react="true">
+            <span class="form-sub-label-container " style="vertical-align:top" data-input-type="phone">
+			<div>
+              <input type="tel" id="phone" name="phone" class="form-textbox" size="12" value="" data-component="phone" aria-labelledby="label_5 sublabel_5_phone" />
+              <button class="myButton" value="Submit" onclick="search();" >Submit</button>
+			  </div>
+            </span>
+          </div>
+        </div>
+      </li>
+	  
+	  <div class="appointmentDates">
+					<div class="appointmentSlots slots ">
+				  <div id ="ajaxTime" class="appointmentSlotsContainer">
+					<table id ="timeTable" class="tftable" border="1">
+					</table>
+				  </div>
+				  <input id="time" value="-1"  type="hidden"></input>
+				</div>
+				</div>
+	</ul>
+	</div>
+ <script>
+function search(){
+	var phone = document.getElementById('phone').value;
+	if ( phone.length != 10){
+		alert("Please enter valid phone number");
+	} else {
+		$.ajax({
+			type: 'POST',
+			url: "/search",
+			data: {
+				phone: phone
+			},
+			success: function(response) {
+				$("#timeTable").empty();
+				$("#timeTable").append('<tr><th>Date</th><th>Time</th><th>Cancel</th></tr>');
+				var item=response.res;
+				var now = new Date();
+				now.setMinutes (now.getMinutes () - 30);
+				for(var i=0;i<item.length;i++){
+					var thetime = item[i].date+' '+item[i].slots
+					var d =new  Date(Date.parse(thetime.replace(/-/g,"/")));
+					if (d < now){
+						$("#timeTable").append('<tr><td>'+item[i].date+'</td><td>'+item[i].slots+'</td><td></td></tr>');
+					} else {
+						$("#timeTable").append('<tr><td>'+item[i].date+'</td><td>'+item[i].slots+'</td><td><button class="cancelButton" value="Submit" onclick="cancel();" >Cancel</button></td></tr>');
+					}
+					
+				}
+			},
+			error: function(error) {
+				console.info("error:"+ error);
+			}
+		});
+	} 
+}
+
+function cancel(){
+	$('#ajaxTime table tr').on('click', function() {  
+		var self = $(this);  
+		var date;
+		var time;
+		var i = 0;
+		date = self.children('td')[0].innerHTML;
+		time = self.children('td')[1].innerHTML;
+		
+		$.ajax({
+			type: 'POST',
+			url: "/cancel",
+			data: {
+				date: date,
+				time: time
+			},
+			success: function(response) {
+				self.remove();
+			},
+			error: function(error) {
+				console.info("error:"+ error);
+			}
+		});
+ 
+    });  
+}
+ </script>
+</body>
+</html>
