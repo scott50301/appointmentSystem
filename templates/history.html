@@ -137,6 +137,7 @@ function search(){
 }
 
 function cancel(){
+	
 	$('#ajaxTime table tr').on('click', function() {  
 		var self = $(this);  
 		var date;
@@ -144,21 +145,27 @@ function cancel(){
 		var i = 0;
 		date = self.children('td')[0].innerHTML;
 		time = self.children('td')[1].innerHTML;
+		var yes = confirm('Are you sure to cancel '+ date+' '+time);
+
+		if (yes) {
+			$.ajax({
+				type: 'POST',
+				url: "/cancel",
+				data: {
+					date: date,
+					time: time
+				},
+				success: function(response) {
+					self.remove();
+				},
+				error: function(error) {
+					console.info("error:"+ error);
+				}
+			});
+		} else {
+			
+		}
 		
-		$.ajax({
-			type: 'POST',
-			url: "/cancel",
-			data: {
-				date: date,
-				time: time
-			},
-			success: function(response) {
-				self.remove();
-			},
-			error: function(error) {
-				console.info("error:"+ error);
-			}
-		});
  
     });  
 }
