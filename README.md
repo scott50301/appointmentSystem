@@ -1,6 +1,9 @@
-# appointmentSystem
+# Appointment System
 
-##Get Started
+An application that lets users create/edit/delete appointment windows of a service. This application is created mainly to apply distributed systems concepts such as Replication, Consistency, and reliability. 
+
+
+## How to Get Started
 
 *MySql databse
 *python3.0
